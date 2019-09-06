@@ -15,12 +15,9 @@ namespace ExpensesTracking.Models
         [Required(ErrorMessage = "The email address is required")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
-        public string ReceiverMail { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
         public DateTime Created { get; set; }
-        public DateTime LastActive { get; set; }
-        public string Name { get; set; }
-        public ICollection<Project> Projects { get; set; }
+        public ICollection<Customer> Customers { get; set; }
     }
 }
