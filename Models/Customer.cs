@@ -11,6 +11,5 @@ namespace ExpensesTracking.Models
         public int ID { get; set; }
         public string Name { get; set; }
         public ICollection<Project> Projects { get; set; }
-        public int UserId { get; set; }
     }
 }

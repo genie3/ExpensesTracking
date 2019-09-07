@@ -1,0 +1,25 @@
+﻿
+//===========
+//Snippet for JSON Generator site at https://www.json-generator.com/
+//===========
+[
+  '{{repeat(3)}}',
+  {
+    Name: 'Customer {{index(1)}}',
+   Projets: [
+      '{{repeat(2)}}',
+      {
+        Name:'Projects {{index(1)}}',
+          Expenses:[
+         '{{repeat(2)}}',
+            {
+              ExpenseDate:'{{date(new Date(2019,0,1), new Date(2019, 8, 31), "YYYY-MM-dd")}}',
+              Name:'{{lorem(4,"words")}}',
+              Amount:'{{floating(45,200,2)}}',
+              Description:'{{lorem()}}'
+            }
+      ]
+      }
+    ]
+  }
+]

@@ -23,13 +23,9 @@ namespace ExpensesTracking.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("UserId");
-
                     b.HasKey("ID");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Customer");
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("ExpensesTracking.Models.Expense", b =>
@@ -59,48 +55,15 @@ namespace ExpensesTracking.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CustomerID");
+                    b.Property<int>("CustomerId");
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("UserId");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerID");
-
-                    b.HasIndex("UserId");
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Project");
-                });
-
-            modelBuilder.Entity("ExpensesTracking.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("Created");
-
-                    b.Property<string>("Email")
-                        .IsRequired();
-
-                    b.Property<byte[]>("PasswordHash");
-
-                    b.Property<byte[]>("PasswordSalt");
-
-                    b.Property<string>("Username");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("ExpensesTracking.Models.Customer", b =>
-                {
-                    b.HasOne("ExpensesTracking.Models.User")
-                        .WithMany("Customers")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ExpensesTracking.Models.Expense", b =>
@@ -113,13 +76,9 @@ namespace ExpensesTracking.Migrations
 
             modelBuilder.Entity("ExpensesTracking.Models.Project", b =>
                 {
-                    b.HasOne("ExpensesTracking.Models.Customer")
+                    b.HasOne("ExpensesTracking.Models.Customer", "Customer")
                         .WithMany("Projects")
-                        .HasForeignKey("CustomerID");
-
-                    b.HasOne("ExpensesTracking.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

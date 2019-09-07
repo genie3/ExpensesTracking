@@ -3,45 +3,21 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ExpensesTracking.Migrations
 {
-    public partial class AddingCustomerToDb : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Username = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: false),
-                    PasswordHash = table.Column<byte[]>(nullable: true),
-                    PasswordSalt = table.Column<byte[]>(nullable: true),
-                    Created = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Customer",
+                name: "Customers",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(nullable: true),
-                    UserId = table.Column<int>(nullable: false)
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Customer", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Customer_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_Customers", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -51,23 +27,16 @@ namespace ExpensesTracking.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(nullable: true),
-                    UserId = table.Column<int>(nullable: false),
-                    CustomerID = table.Column<int>(nullable: true)
+                    CustomerId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Project", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Project_Customer_CustomerID",
-                        column: x => x.CustomerID,
-                        principalTable: "Customer",
+                        name: "FK_Project_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Project_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -95,24 +64,14 @@ namespace ExpensesTracking.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Customer_UserId",
-                table: "Customer",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Expense_ProjectId",
                 table: "Expense",
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Project_CustomerID",
+                name: "IX_Project_CustomerId",
                 table: "Project",
-                column: "CustomerID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Project_UserId",
-                table: "Project",
-                column: "UserId");
+                column: "CustomerId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -124,10 +83,7 @@ namespace ExpensesTracking.Migrations
                 name: "Project");
 
             migrationBuilder.DropTable(
-                name: "Customer");
-
-            migrationBuilder.DropTable(
-                name: "Users");
+                name: "Customers");
         }
     }
 }
