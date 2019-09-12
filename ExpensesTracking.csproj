@@ -5,13 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20190906153902_AddingCustomerToDb.cs" />
-    <Compile Remove="Migrations\20190906153902_AddingCustomerToDb.Designer.cs" />
-    <Compile Remove="Migrations\20190907154744_RemovingUserTable.cs" />
-    <Compile Remove="Migrations\20190907154744_RemovingUserTable.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="bootstrap" Version="4.3.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.11" />

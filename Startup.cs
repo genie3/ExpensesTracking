@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace ExpensesTracking
 {
@@ -35,8 +36,9 @@ namespace ExpensesTracking
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddAutoMapper(typeof(ExpensesRepository).Assembly);
+            services.AddScoped<IExpensesRepository, ExpensesRepository>();
 
-           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,7 +60,7 @@ namespace ExpensesTracking
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Expenses}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

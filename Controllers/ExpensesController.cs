@@ -2,159 +2,60 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 using ExpensesTracking.Data;
-using ExpensesTracking.Models;
+using ExpensesTracking.Dtos;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ExpensesTracking.Controllers
 {
-    public class ExpensesController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ExpensesController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly IExpensesRepository _repo;
+        private readonly IMapper _mapper;
 
-        public ExpensesController(DataContext context)
+        public ExpensesController(IExpensesRepository repo, IMapper mapper)
         {
-            _context = context;
+            _repo = repo;
+            _mapper = mapper;
         }
 
-        // GET: Expenses
-        public async Task<IActionResult> Index()
+
+        // GET: api/Expenses
+        [HttpGet]
+        public async Task<IActionResult> GetAsync()
         {
-            var dataContext = _context.Expense.Include(e => e.Project);
-            return View(await dataContext.ToListAsync());
+            var expenses = await _repo.GetExpenses();
+            var expensesToReturn = _mapper.Map<IEnumerable<ExpensesForListDto>>(expenses);
+            return Ok(expensesToReturn);
         }
 
-        // GET: Expenses/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: api/Expenses/5
+        [HttpGet("{id}", Name = "Get")]
+        public string Get(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var expense = await _context.Expense
-                .Include(e => e.Project)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (expense == null)
-            {
-                return NotFound();
-            }
-
-            return View(expense);
+            return "value";
         }
 
-        // GET: Expenses/Create
-        public IActionResult Create()
-        {
-            ViewData["ProjectId"] = new SelectList(_context.Set<Project>(), "Id", "Id");
-            return View();
-        }
-
-        // POST: Expenses/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: api/Expenses
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ProjectId,ExpenseDate,Name,Amount,Description")] Expense expense)
+        public void Post([FromBody] string value)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(expense);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["ProjectId"] = new SelectList(_context.Set<Project>(), "Id", "Id", expense.ProjectId);
-            return View(expense);
         }
 
-        // GET: Expenses/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        // PUT: api/Expenses/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] string value)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var expense = await _context.Expense.FindAsync(id);
-            if (expense == null)
-            {
-                return NotFound();
-            }
-            ViewData["ProjectId"] = new SelectList(_context.Set<Project>(), "Id", "Id", expense.ProjectId);
-            return View(expense);
         }
 
-        // POST: Expenses/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ProjectId,ExpenseDate,Name,Amount,Description")] Expense expense)
+        // DELETE: api/ApiWithActions/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
         {
-            if (id != expense.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(expense);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ExpenseExists(expense.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["ProjectId"] = new SelectList(_context.Set<Project>(), "Id", "Id", expense.ProjectId);
-            return View(expense);
-        }
-
-        // GET: Expenses/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var expense = await _context.Expense
-                .Include(e => e.Project)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (expense == null)
-            {
-                return NotFound();
-            }
-
-            return View(expense);
-        }
-
-        // POST: Expenses/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var expense = await _context.Expense.FindAsync(id);
-            _context.Expense.Remove(expense);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool ExpenseExists(int id)
-        {
-            return _context.Expense.Any(e => e.Id == id);
         }
     }
 }

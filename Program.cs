@@ -3,6 +3,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 
 namespace ExpensesTracking
@@ -24,7 +25,8 @@ namespace ExpensesTracking
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message + "\n An Error occured during migration.");
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred seeding the DB.");
                 }
             }
             host.Run();

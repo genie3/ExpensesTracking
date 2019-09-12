@@ -47,7 +47,7 @@ namespace ExpensesTracking.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("Expense");
+                    b.ToTable("Expenses");
                 });
 
             modelBuilder.Entity("ExpensesTracking.Models.Project", b =>
@@ -63,7 +63,7 @@ namespace ExpensesTracking.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Project");
+                    b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("ExpensesTracking.Models.Expense", b =>

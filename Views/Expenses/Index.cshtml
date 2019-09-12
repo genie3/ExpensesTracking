@@ -1,60 +1,105 @@
 ﻿@model IEnumerable<ExpensesTracking.Models.Expense>
 
+@section Scripts
+    {
+     <link rel="stylesheet" type="text/css" href="~/lib/datatables/css/jquery.dataTables.css">
+    <script type="text/javascript" src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+       var table = $(document).ready(function () {
+            $('#myTable').DataTable({
+                paging: false,
+                filter: false,
+                order: [[1,'desc']],
+                columnDefs: [
+                  { targets: 'no-sort', orderable: false }
+                ]
+            });
+       });
+        
+        function DeleteData(CustomerID)
+        {
+            if (confirm("Are you sure you want to delete ...?"))
+            {
+                Delete(CustomerID);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+    function Delete(CustomerID)
+    {
+      var url = '@Url.Content("~/")' + "DemoGrid/Delete";
+      $.post(url, { ID: CustomerID }, function (data)
+      {
+          if (data)
+          {
+              oTable = $('#example').DataTable();
+              oTable.draw();
+          }
+          else
+          {
+              alert("Something Went Wrong!");
+          }
+      });
+    }
+    </script>
+}
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Expenses";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Index</h2>
-
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
+<table id="myTable" class="table table-striped table-hover" cellspacing="0" width="100%">
+    <thead class="thead-grey">
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Project)
+            <th class="no-sort">
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ExpenseDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.Project.Customer.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Project.Name)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Amount)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th></th>
+            <th class="no-sort"></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Project.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExpenseDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExpenseDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Project.Customer.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Project.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    <!-- <a asp-action="Details" asp-route-id="@item.Id">Details</a> |-->
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

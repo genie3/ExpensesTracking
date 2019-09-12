@@ -7,6 +7,7 @@ namespace ExpensesTracking.Data
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<ExpensesTracking.Models.Expense> Expense { get; set; }
+        public DbSet<Expense> Expenses { get; set; }
+        public DbSet<Project> Projects { get; set; }
     }
 }

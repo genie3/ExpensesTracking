@@ -12,7 +12,7 @@ namespace ExpensesTracking.Controllers
     {
         public IActionResult Index()
         {
-            return RedirectToAction("Index","Expenses");
+            return View();
         }
 
         public IActionResult About()
