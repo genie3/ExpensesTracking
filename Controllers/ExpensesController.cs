@@ -7,6 +7,7 @@ using ExpensesTracking.Data;
 using ExpensesTracking.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace ExpensesTracking.Controllers
 {
@@ -24,9 +25,9 @@ namespace ExpensesTracking.Controllers
         }
 
 
-        // GET: api/Expenses
-        [HttpGet]
-        public async Task<IActionResult> GetAsync()
+        // POST: api/Expenses
+        [HttpPost]
+        public async Task<IActionResult> PostAsync()
         {
             var expenses = await _repo.GetExpenses();
             var expensesToReturn = _mapper.Map<IEnumerable<ExpensesForListDto>>(expenses);
@@ -40,11 +41,6 @@ namespace ExpensesTracking.Controllers
             return "value";
         }
 
-        // POST: api/Expenses
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
 
         // PUT: api/Expenses/5
         [HttpPut("{id}")]
