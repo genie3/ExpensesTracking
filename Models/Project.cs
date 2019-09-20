@@ -14,7 +14,10 @@ namespace ExpensesTracking.Models
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }
         public ICollection<Expense> Expenses { get; set; }
- 
+
+        public bool IsDeleted { get; set; }
+
+
 
 
 

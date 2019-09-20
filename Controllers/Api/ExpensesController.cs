@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-namespace ExpensesTracking.Controllers
+namespace ExpensesTracking.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -52,6 +52,7 @@ namespace ExpensesTracking.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            Console.WriteLine("Deleting" + id);
         }
     }
 }

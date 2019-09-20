@@ -19,5 +19,6 @@ namespace ExpensesTracking.Models
         public string Name { get; set; }
         public float Amount { get; set; }
         public string Description { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
