@@ -19,9 +19,19 @@ namespace ExpensesTracking.Data
             throw new NotImplementedException();
         }
 
-        public void Delete<T>(T entity) where T : class
+        public void Delete<T>(T entity, int? userId) where T : class
         {
-            throw new NotImplementedException();
+            if(entity is ISoftDelete){
+                ISoftDelete e = (ISoftDelete)entity;
+                e.DeletedDate = DateTime.Now;
+                e.IsDeleted = true;
+                e.DeletedBy = userId;
+            }
+            else
+            {
+                _context.Remove(entity);
+            }
+            
         }
 
         public Task<Expense> GetExpense(int id)
@@ -31,14 +41,14 @@ namespace ExpensesTracking.Data
 
         public async Task<IEnumerable<Expense>> GetExpenses()
         {
-            var expenses = await _context.Expenses.Include(p => p.Project).Include(c => c.Project.Customer).ToListAsync();
+            var expenses = await _context.Expenses.Where(x=>x.IsDeleted == false).Include(p => p.Project).Include(c => c.Project.Customer).ToListAsync();
 
             return expenses;
         }
 
-        public Task<bool> SaveAll()
+        public async Task<bool> SaveAll()
         {
-            throw new NotImplementedException();
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace ExpensesTracking.Data
     public interface IExpensesRepository
     {
         void Add<T>(T entity) where T : class;
-        void Delete<T>(T entity) where T : class;
+        void Delete<T>(T entity, int? userId) where T : class;
 
         Task<bool> SaveAll();
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExpensesTracking.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ExpensesTracking.Models
 {
-    public class Expense
+    public class Expense : ISoftDelete 
     {
         public int Id { get; set; }
         public int ProjectId { get; set; }
@@ -20,5 +21,7 @@ namespace ExpensesTracking.Models
         public float Amount { get; set; }
         public string Description { get; set; }
         public bool IsDeleted { get; set; }
+        public DateTime? DeletedDate { get; set; }
+        public int? DeletedBy { get; set; }
     }
 }
