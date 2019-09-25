@@ -11,7 +11,7 @@ namespace ExpensesTracking.Models
     {
         public int Id { get; set; }
         public int ProjectId { get; set; }
-        public Project Project { get; set; }
+        public virtual Project Project { get; set; }
 
         [DataType(DataType.Date)]
         [Display(Name = "Date")]
@@ -19,6 +19,7 @@ namespace ExpensesTracking.Models
         public DateTime ExpenseDate { get; set; }
         public string Name { get; set; }
         public float Amount { get; set; }
+        [StringLength(255)]
         public string Description { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? DeletedDate { get; set; }

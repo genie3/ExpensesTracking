@@ -11,9 +11,14 @@ namespace ExpensesTracking.Data
         void Add<T>(T entity) where T : class;
         void Delete<T>(T entity, int? userId) where T : class;
 
+        void Update<T>(T entity) where T : class;
+
         Task<bool> SaveAll();
 
         Task<IEnumerable<Expense>> GetExpenses();
         Task<Expense> GetExpense(int id);
+
+        Task<IEnumerable<Project>> GetProjects();
+
     }
 }

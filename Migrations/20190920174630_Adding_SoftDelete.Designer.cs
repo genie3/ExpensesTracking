@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExpensesTracking.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190920165933_Adding-IsDeleted")]
-    partial class AddingIsDeleted
+    [Migration("20190920174630_Adding_SoftDelete")]
+    partial class Adding_SoftDelete
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -22,8 +22,6 @@ namespace ExpensesTracking.Migrations
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("IsDeleted");
 
                     b.Property<string>("Name");
 
@@ -38,6 +36,10 @@ namespace ExpensesTracking.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<float>("Amount");
+
+                    b.Property<int?>("DeletedBy");
+
+                    b.Property<DateTime?>("DeletedDate");
 
                     b.Property<string>("Description");
 
@@ -62,8 +64,6 @@ namespace ExpensesTracking.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("CustomerId");
-
-                    b.Property<bool>("IsDeleted");
 
                     b.Property<string>("Name");
 

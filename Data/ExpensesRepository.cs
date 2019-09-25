@@ -16,12 +16,13 @@ namespace ExpensesTracking.Data
         }
         public void Add<T>(T entity) where T : class
         {
-            throw new NotImplementedException();
+            _context.Add(entity);
         }
 
         public void Delete<T>(T entity, int? userId) where T : class
         {
-            if(entity is ISoftDelete){
+            if (entity is ISoftDelete)
+            {
                 ISoftDelete e = (ISoftDelete)entity;
                 e.DeletedDate = DateTime.Now;
                 e.IsDeleted = true;
@@ -31,24 +32,42 @@ namespace ExpensesTracking.Data
             {
                 _context.Remove(entity);
             }
-            
+
         }
 
-        public Task<Expense> GetExpense(int id)
+        public void Update<T>(T entity) where T : class
         {
-            throw new NotImplementedException();
+            _context.Entry(entity).State = EntityState.Modified;
+        }
+
+        public async Task<Expense> GetExpense(int id)
+        {
+            var expense = await _context.Expenses.Include(p => p.Project.Customer).SingleOrDefaultAsync(x => x.Id == id);
+            return expense;
         }
 
         public async Task<IEnumerable<Expense>> GetExpenses()
         {
-            var expenses = await _context.Expenses.Where(x=>x.IsDeleted == false).Include(p => p.Project).Include(c => c.Project.Customer).ToListAsync();
+
+            var expenses = await _context.Expenses
+            .Include(p => p.Project.Customer)
+            .Where(x => x.IsDeleted == false).ToListAsync();
 
             return expenses;
+        }
+
+        public async Task<IEnumerable<Project>> GetProjects()
+        {
+            var projects = await _context.Projects.Include(c => c.Customer).ToListAsync();
+
+            return projects;
         }
 
         public async Task<bool> SaveAll()
         {
             return await _context.SaveChangesAsync() > 0;
         }
+
+
     }
 }

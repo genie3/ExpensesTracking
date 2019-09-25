@@ -9,5 +9,7 @@ namespace ExpensesTracking.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<Project> Projects { get; set; }
+
+     
     }
 }

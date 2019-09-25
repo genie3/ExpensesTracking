@@ -12,8 +12,8 @@ namespace ExpensesTracking.Models
         [Display(Name = "Project")]
         public string Name { get; set; }
         public int CustomerId { get; set; }
-        public Customer Customer { get; set; }
-        public ICollection<Expense> Expenses { get; set; }
+        public virtual Customer Customer { get; set; }
+        public virtual ICollection<Expense> Expenses { get; set; }
 
      
 

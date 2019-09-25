@@ -12,7 +12,7 @@ namespace ExpensesTracking.Models
         public int ID { get; set; }
         [Display(Name = "Customer")]
         public string Name { get; set; }
-        public ICollection<Project> Projects { get; set; }
+        public virtual ICollection<Project> Projects { get; set; }
         
     }
 }
