@@ -19,15 +19,14 @@ namespace ExpensesTracking.Data
             _context.Add(entity);
         }
 
-        public void Delete<T>(T entity, int? userId) where T : class
+        public void Delete<T>(T entity) where T : class
         {
             if (entity is ISoftDelete)
             {
                 ISoftDelete e = (ISoftDelete)entity;
                 e.DeletedDate = DateTime.Now;
                 e.IsDeleted = true;
-                e.DeletedBy = userId;
-            }
+             }
             else
             {
                 _context.Remove(entity);

@@ -78,7 +78,8 @@ namespace ExpensesTracking.Controllers.Api
             var expense = _repo.GetExpense(id);
             if (expense == null)
                 return;
-            _repo.Delete(expense, 0);
+            _repo.Delete(expense);
+            _repo.SaveAll();
 
         }
     }

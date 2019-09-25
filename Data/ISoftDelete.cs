@@ -9,6 +9,5 @@ namespace ExpensesTracking.Data
     {
         Boolean IsDeleted { get; set; }
         DateTime? DeletedDate { get; set; }
-        int? DeletedBy { get; set; }
     }
 }
